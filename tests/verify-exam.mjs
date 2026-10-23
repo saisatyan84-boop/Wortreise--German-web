@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {grammarTopics} from '../dist/exam-lessons.js';
+import {vocabularyThemes} from '../dist/exam-vocabulary.js';
+import {examQuestions,examSources,examCorrections} from '../dist/exam-questions.js';
+import {gradeExamAnswer,normalizeExamAnswer,examSection} from '../dist/exam.js';
+assert.equal(grammarTopics.length,14);
+assert.equal(vocabularyThemes.length,9);
+assert.equal(examQuestions.length,307);
+assert.equal(new Set(examQuestions.map(q=>q.id)).size,307);
+assert.equal(examQuestions.filter(q=>q.set==='grammar').length,210);
+assert.equal(examQuestions.filter(q=>q.set==='vocab').length,45);
+assert.equal(examQuestions.filter(q=>q.set==='notes').length,52);
+assert.equal(vocabularyThemes.reduce((sum,t)=>sum+t.entries.length,0),191);
+assert.deepEqual(examSources.map(s=>s.pages),[10,11,18]);
+assert.ok(examSources.every(s=>/^[a-f0-9]{64}$/.test(s.sha256)));
+for(const topic of grammarTopics){assert.equal(examQuestions.filter(q=>q.set==='grammar'&&q.topic===topic.id).length,15);assert.ok(topic.steps.length>=3&&topic.tables.length&&topic.examples.length>=3&&topic.traps.length);}
+for(const theme of vocabularyThemes){assert.equal(examQuestions.filter(q=>q.set==='vocab'&&q.topic===theme.id).length,5);assert.ok(theme.entries.every(e=>e.source==='vocab'&&e.page>=1&&e.page<=11&&e.de&&e.en));}
+for(const q of examQuestions){assert.ok(q.page>=1&&q.page<=examSources.find(s=>s.id===q.source).pages);assert.ok(q.prompt&&q.reason&&q.answers.every(a=>a.length&&a.every(v=>v.trim())));assert.ok(gradeExamAnswer(q,q.answers.map(a=>a[0])),q.id);assert.equal(gradeExamAnswer(q,q.answers.map(()=>'')),false);if(q.set==='grammar'&&q.num<196||q.set==='notes')assert.equal(q.prompt.match(/___/g)?.length,q.answers.length,q.id);}
+const question=id=>examQuestions.find(q=>q.id===id);
+assert.ok(gradeExamAnswer(question('g048'),['sollst']));
+assert.equal(gradeExamAnswer(question('g048'),['soll']),false);
+assert.ok(gradeExamAnswer(question('g072'),['ist','heiß']));
+assert.equal(gradeExamAnswer(question('g072'),['ist','kalt']),false);
+assert.ok(gradeExamAnswer(question('g133'),['sie']));
+assert.equal(gradeExamAnswer(question('g133'),['ihnen']),false);
+assert.ok(gradeExamAnswer(question('g159'),['der']));
+assert.equal(gradeExamAnswer(question('g159'),['dem']),false);
+assert.ok(gradeExamAnswer(question('g124'),['Ihnen']));
+assert.equal(gradeExamAnswer(question('g124'),['ihnen']),false);
+assert.ok(gradeExamAnswer(question('g125'),['ihnen']));
+assert.equal(gradeExamAnswer(question('g125'),['Ihnen']),false);
+assert.ok(gradeExamAnswer(question('v008'),['Fleischerei']));
+assert.ok(gradeExamAnswer(question('v037'),['Gehen Sie geradeaus.']));
+assert.ok(gradeExamAnswer(question('v029'),['nebelig']));
+assert.notEqual(normalizeExamAnswer('schön'),normalizeExamAnswer('schon'));
+assert.notEqual(normalizeExamAnswer('Straße'),normalizeExamAnswer('Strasse'));
+assert.equal(normalizeExamAnswer('gru\u0308n'),normalizeExamAnswer('grün'));
+assert.equal(examCorrections.length,16);
+const html=examSection(1);
+assert.equal((html.match(/class="exam-guide"/g)||[]).length,14);
+assert.ok(html.includes('307')&&html.includes('id="exam-question-set"'));
+const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const index=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
+assert.ok(app.includes("['exam',()=>examSection(rate)]")&&app.includes('mountExam();'));
+assert.ok(index.includes('href="#exam" data-nav="exam"')&&index.includes('href="exam.css"'));
+console.log('PASS: all 307 source questions, 14 guides, 9 vocabulary themes, source pages, corrected answer-key errors, strict formal pronouns, umlauts and exam navigation.');

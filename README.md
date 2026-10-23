@@ -50,3 +50,18 @@ Selected sound-example words also use human recordings. These recordings have th
 Vocabulary cards synchronize saved states and counts across the page, including the saved-word filter. The continuous review feed shuffles the course vocabulary and exhausts its deck before reshuffling.
 
 Run `npm run check` with Node.js 18+ to verify JavaScript syntax, the recording assets, Unicode spelling and credits.
+
+
+## Semester exam section
+
+The separate `#exam` section follows only the German-folder material supplied from EndSem.zip:
+
+- `german end-sem 26 notes.pdf` (10 pages): welch-, dies-, dative personal pronouns, man, W-questions and time expressions.
+- `german end-sem vocab 2026.pdf` (11 pages): clothing, shops, holiday types, destinations/travel verbs, tourist attractions, weather, orientation, direction phrases and workplaces. Picture-only pages were visually checked. There are 191 vocabulary entries across the nine themes, including context-specific repeats.
+- `end-sem practice book german 2026.pdf` (18 pages): 14 grammar topics with 210 grammar and 45 vocabulary questions and answer keys.
+
+All 255 workbook questions and 52 notes exercises are available as 307 interactive practice questions. The study guide includes English explanations, case/conjugation tables, audio examples, common mistakes and original source question ranges. Exam progress uses its own local storage key and does not change everyday-course progress. A mixed 20-question revision includes one question from each grammar topic and six vocabulary questions. It is revision practice, not an official predicted paper or marking scheme.
+
+The Corrections & sources tab records 16 corrections/clarifications. Examples: workbook #48 needs sollst for du; #72 needs heiß for soup fresh from the stove; #133 needs accusative sie after für; #159 needs der after nach with Arbeit. Formal pronouns distinguish Ihnen from ihnen in both directions. The notes’ broad “always dative” time-preposition heading is corrected. Split-ending and malformed prompts are normalized to complete-word answer boxes and identified in the source notes.
+
+Source filenames, page counts and SHA-256 hashes are recorded in `dist/exam-questions.js`; original PDF scans and third-party illustrations are not redistributed. Study explanations are written for the supplied topics, with no assumed exam date, marks or additional units. `tests/verify-exam.mjs` checks source coverage, page references, all model answers, key corrections and grading behavior.

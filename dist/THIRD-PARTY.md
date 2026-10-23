@@ -16,3 +16,7 @@ Caveat, Kalam, Lora, DM Sans and Manrope are distributed under the SIL Open Font
 ## Original illustration
 
 `illustrations/black-forest-ink.png` was generated for Wortreise with the built-in image-generation tool. It is an illustrative fictional German village, not a photograph or a real destination guide. No Pinterest pin images are redistributed.
+
+## Model-specific phoneme mapping
+
+The inference adapter now maps the phonemizer’s Unicode sound symbols through each model’s phoneme_id_map, with its beginning/end symbols and interspersed padding. It composes combining characters before mapping, including c + cedilla as ç for the older Kerstin table (130 symbols). This avoids passing the phonemizer’s newer universal IDs into an incompatible model. Upstream format and mapping references: https://github.com/wide-video/piper-phonemize/blob/master/src/phoneme_ids.cpp and the per-voice JSON files on the Rhasspy model host. Regression fixtures contain the male/female symbol tables from those JSON files.

@@ -1,3 +1,4 @@
+import {mountExamDesk} from './exam-desk.js?v=2';
 const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
 export function inputVelocity(delta,elapsed){return clamp(delta*1000/Math.max(8,elapsed),-2200,2200);}
 export function advanceBody(body,seconds,limits={x:65,y:45,angle:30}){
@@ -27,11 +28,12 @@ export function mountDeskMotion(){
  const toggle=document.createElement('button');toggle.className='desk-motion-toggle';toggle.type='button';toggle.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4 17-1 4 4-1L20 7l-3-3Zm10-10 3 3M3 7h6M3 11h3"/></svg>';
  document.querySelector('.header-right').append(toggle);
  let frame=0,lastFrame=0,lastScroll=scrollY,scrollTime=0,pointer=null;
- const enabled=()=>!paused&&!preference.matches&&!document.hidden;
+ const motionAllowed=()=>!paused&&!preference.matches;
+ const enabled=()=>motionAllowed()&&!document.hidden&&(!document.documentElement.dataset.deskScene||document.documentElement.dataset.deskScene==='loose');
  const paint=()=>objects.forEach(({el,body})=>{el.style.transform=`translate3d(${body.x.toFixed(2)}px,${body.y.toFixed(2)}px,0) rotate(${body.angle.toFixed(2)}deg)`;});
  const collectPageObjects=()=>{for(let index=objects.length-1;index>=4;index--)if(!objects[index].el.isConnected)objects.splice(index,1);document.querySelectorAll('.page-pencil').forEach(el=>{if(!objects.some(object=>object.el===el))objects.push({el,body:zero(),factor:.6});});};
  const stop=()=>{cancelAnimationFrame(frame);frame=0;lastFrame=0;objects.forEach(object=>object.body=zero());paint();};
- const sync=()=>{const active=enabled();document.documentElement.dataset.deskMotion=active?'on':'paused';toggle.setAttribute('aria-pressed',String(!active));toggle.setAttribute('aria-label',preference.matches?'Desk motion is reduced by your device settings':active?'Pause moving pens and paper':'Resume moving pens and paper');toggle.title=toggle.getAttribute('aria-label');toggle.disabled=preference.matches;if(!active)stop();};
+ const sync=()=>{const active=motionAllowed();document.documentElement.dataset.deskMotion=active?'on':'paused';toggle.setAttribute('aria-pressed',String(!active));toggle.setAttribute('aria-label',preference.matches?'Desk motion is reduced by your device settings':active?'Pause moving pens and paper':'Resume moving pens and paper');toggle.title=toggle.getAttribute('aria-label');toggle.disabled=preference.matches;if(!active)stop();document.dispatchEvent(new Event('wortreise:desk-preference'));};
  const tick=time=>{const elapsed=lastFrame?Math.min((time-lastFrame)/1000,.04):1/60;lastFrame=time;const phone=innerWidth<700;let moving=false;objects.forEach((object,index)=>{const limits=index===2?{x:phone?24:60,y:4,angle:6}:index<2?{x:phone?4:12,y:phone?22:49,angle:phone?5:8}:index===3?{x:8,y:18,angle:20}:{x:phone?12:28,y:8,angle:12};object.body=advanceBody(object.body,elapsed,limits);moving=bodyIsMoving(object.body)||moving;});paint();if(moving&&enabled())frame=requestAnimationFrame(tick);else{frame=0;lastFrame=0;}};
  const kick=(vx,vy)=>{if(!enabled())return;objects.forEach((object,index)=>{const sign=index%2?-1:1;object.body.vx+=vx*.075*object.factor;object.body.vy+=vy*.085*object.factor*sign;object.body.spin+=(vx*.016+vy*.027)*object.factor*sign;});if(!frame)frame=requestAnimationFrame(tick);};
  window.addEventListener('scroll',()=>{const now=performance.now(),position=scrollY,delta=position-lastScroll;lastScroll=position;const elapsed=scrollTime?now-scrollTime:32;scrollTime=now;if(Math.abs(delta)>innerHeight*1.2||!delta)return;kick(delta*.13,inputVelocity(delta,elapsed));},{passive:true});
@@ -41,5 +43,5 @@ export function mountDeskMotion(){
  window.addEventListener('hashchange',()=>{collectPageObjects();lastScroll=scrollY;scrollTime=0;pointer=null;stop();});
  window.addEventListener('resize',()=>{lastScroll=scrollY;pointer=null;stop();},{passive:true});
  document.addEventListener('visibilitychange',()=>{pointer=null;lastScroll=scrollY;sync();});preference.addEventListener('change',sync);
- toggle.addEventListener('click',()=>{paused=!paused;try{localStorage.setItem('wortreise-desk-motion',paused?'paused':'on');}catch{}sync();});sync();
+ toggle.addEventListener('click',()=>{paused=!paused;try{localStorage.setItem('wortreise-desk-motion',paused?'paused':'on');}catch{}sync();});sync();mountExamDesk({motionAllowed,resetMotion:stop});
 }

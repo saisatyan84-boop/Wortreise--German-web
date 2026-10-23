@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {deskAction} from '../dist/exam-desk.js';
 import {inputVelocity,advanceBody,bodyIsMoving,pageEphemera} from '../dist/desk-motion.js';
 assert.ok(inputVelocity(20,10)>inputVelocity(20,100),'Faster movement must produce a stronger impulse');
 assert.equal(inputVelocity(-99999,1),-2200);
@@ -14,3 +15,8 @@ const oneStep=advanceBody({...resting,vx:10000,vy:10000,spin:10000},5,{x:19,y:22
 assert.ok(Math.abs(oneStep.x)<=19&&Math.abs(oneStep.y)<=22&&Math.abs(oneStep.angle)<=20,'A stalled frame must not fling stationery out of its bounds');
 for(const id of ['home','learn','exam','sounds','practice','translate','captions'])assert.ok(pageEphemera(id).includes('page-crumple'));
 console.log('PASS: speed-sensitive input, capped impulses, bounded motion, settling to rest, stalled-frame handling and paper decorations in every book.');
+
+const sections=["home","learn","exam","sounds","practice","translate","captions"];
+for(const previous of sections)for(const next of sections.filter(id=>id!==previous)){assert.equal(deskAction(previous,next),next==="exam"?"collect":previous==="exam"?"scatter":"none",`${previous} → ${next} desk sequence`);}
+assert.equal(deskAction(null,"exam"),"collect","A direct exam link also starts with a clear desk");
+console.log("PASS: all 42 section transitions choose the right exam-only collection/scattering scene.");

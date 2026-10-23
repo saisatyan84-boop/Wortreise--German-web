@@ -42,6 +42,8 @@ export function updateNativeRate(rate) {
   if (audio) audio.playbackRate = playbackRate;
 }
 
+export async function warmNativeAudio(){await Promise.allSettled(Object.keys(nativeAudio).map(clip));}
+
 async function play(key, token) {
   const src = await clip(key);
   if (token !== run) return;

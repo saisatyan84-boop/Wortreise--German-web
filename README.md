@@ -121,3 +121,19 @@ Sources for the history insert:
 - https://www.dhm.de/lemo/kapitel/ns-regime
 
 `tests/verify-desk-motion.mjs` checks speed-sensitive impulses, motion bounds, decay to rest and long-frame handling. Browser verification includes pause/resume, scroll reaction, exam answer checks and desktop/phone layouts.
+
+## Exam desk choreography (2.2)
+
+After the usual book swap into Semester exam, an illustrated bin pops up and collects loose paper while four writing tools line up in a tray at the bottom right. The bin leaves and the revision desk stays still. Leaving Semester exam preserves the normal book swap, then the bin drops in and spills the decorations back into the newly opened section. All other section changes retain the existing book animation and speed-sensitive stationery.
+
+The sequences are cancellable on rapid navigation, resize, backgrounding, pausing motion or a device reduced-motion preference. In those cases the correct final desk layout appears immediately. Exam tabs never count as a book change. Decorative flight copies are inert and never move inputs, personal notes, answers or study content.
+
+The bin lid renders outside its SVG frame, preventing clipping while it opens. A fresh-ink typography layer strengthens heading and body contrast in both themes, increases small interface labels and reading copy, and preserves dark ink on the light sticky notes.
+
+## Clearer voice playback (2.3)
+
+New visitors start at 0.90×, with saved speed choices preserved and safely bounded. “Prepare voice” loads the selected male/female model and caches the preview without autoplay. Longer text is normalized to German Unicode and split at sentence/word boundaries; the next segment is generated while the current one plays. Audio reuses a single media element, preserves pitch when slowed down, ignores stale worker replies after Stop and reuses bounded memory/persistent phrase caches. The 44 human pronunciation clips warm in the background without downloading a neural model. Device compatibility refuses a German request if no German voice is installed.
+
+Synthetic pronunciation and timing still depend on the model, text, browser and hardware. Preparation is explicit, repeated phrases avoid inference, and novel phrases still need generation. Neither voice is a substitute for reviewed native recordings where a guaranteed pronunciation is required. The existing human alphabet clips are independent of the male/female sentence selector.
+
+A live browser check found and fixed an incompatible phoneme map in the older female model. Both voices now receive IDs from their own model configuration, composing German ç correctly; new audio uses a fresh cache version so earlier generated clips are not replayed. On phones the exam pen tray sits on a reserved footer ledge, separate from the reading area.

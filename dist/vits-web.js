@@ -1,3 +1,4 @@
+import {modelPhonemeIds} from './phoneme-map.js';
 // Adapted from @diffusionstudio/vits-web 1.0.3. See THIRD-PARTY.md.
 const u = "https://huggingface.co/rhasspy/piper-voices/resolve/main", B = "https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.18.0/", x = "https://cdn.jsdelivr.net/npm/@diffusionstudio/piper-wasm@1.0.0/build/piper_phonemize", c = {
   "ar_JO-kareem-low": "ar/ar_JO/kareem/low/ar_JO-kareem-low.onnx",
@@ -181,10 +182,11 @@ const status=message=>self.postMessage({type:'status',message});
 async function N(e,m){
  h=h??await import('./piper-DeOu3H9E.js');_= _??await import('https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/esm/ort.min.js');
  _.env.wasm.numThreads=1;_.env.wasm.wasmPaths=B;
- if(!phonemizer){status('Setting up pronunciation once…');phonemizer=await h.createPiperPhonemize({noInitialRun:true,noExitRuntime:true,print:line=>{try{const result=JSON.parse(line);if(result.phoneme_ids)onPhonemes?.(result.phoneme_ids)}catch{}},printErr:line=>onPhonemeError?.(Error(line)),locateFile:path=>path.endsWith('.wasm')?x+'.wasm':path.endsWith('.data')?x+'.data':path})}
+ if(!phonemizer){status('Setting up pronunciation once…');phonemizer=await h.createPiperPhonemize({noInitialRun:true,noExitRuntime:true,print:line=>{try{const result=JSON.parse(line);if(result.phonemes)onPhonemes?.(result.phonemes)}catch{}},printErr:line=>onPhonemeError?.(Error(line)),locateFile:path=>path.endsWith('.wasm')?x+'.wasm':path.endsWith('.data')?x+'.data':path})}
  if(activeVoice?.id!==e.voiceId){status('Loading this voice into memory once…');const path=c[e.voiceId];if(!path)throw Error('Unknown voice');const config=JSON.parse(await(await f(`${u}/${path}.json`)).text());const model=await f(`${u}/${path}`,m);if(activeVoice)await activeVoice.session.release();activeVoice=null;activeVoice={id:e.voiceId,config,session:await _.InferenceSession.create(await model.arrayBuffer())}}
  const {config,session}=activeVoice;
- const ids=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Pronunciation timed out. Reload and try again.')),20000);onPhonemes=ids=>{clearTimeout(timer);resolve(ids)};onPhonemeError=error=>{clearTimeout(timer);reject(error)};try{phonemizer.callMain(['-l',config.espeak.voice,'--input',JSON.stringify([{text:e.text.trim()}]),'--espeak_data','/espeak-ng-data'])}catch(error){clearTimeout(timer);reject(error)}});
+ const phonemes=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Pronunciation timed out. Reload and try again.')),20000);onPhonemes=ids=>{clearTimeout(timer);resolve(ids)};onPhonemeError=error=>{clearTimeout(timer);reject(error)};try{phonemizer.callMain(['-l',config.espeak.voice,'--input',JSON.stringify([{text:e.text.trim()}]),'--espeak_data','/espeak-ng-data'])}catch(error){clearTimeout(timer);reject(error)}});
+ const ids=modelPhonemeIds(phonemes,config);
  const input={input:new _.Tensor('int64',ids,[1,ids.length]),input_lengths:new _.Tensor('int64',[ids.length]),scales:new _.Tensor('float32',[config.inference.noise_scale,config.inference.length_scale,config.inference.noise_w])};
  if(Object.keys(config.speaker_id_map||{}).length)input.sid=new _.Tensor('int64',[0]);
  const {output:{data}}=await session.run(input);return new Blob([b(data,1,config.audio.sample_rate)],{type:'audio/wav'});

@@ -1,0 +1,74 @@
+/* Fresh ink on old paper: keep the handmade character, give reading priority. */
+:root,html[data-theme=light]{--ink:#28251f;--muted:#514638;--copy-strong:#28251f;--copy-soft:#514638;--accent:#62432e;--pen:#5b3d29}
+html[data-book=learn]:not([data-theme=dark]){--accent:#244e55;--pen:#244e55}
+html[data-book=exam]:not([data-theme=dark]){--accent:#802f2b;--pen:#802f2b}
+html[data-book=sounds]:not([data-theme=dark]){--accent:#743e25;--pen:#743e25}
+html[data-book=practice]:not([data-theme=dark]){--accent:#3f5125;--pen:#3f5125}
+html[data-book=translate]:not([data-theme=dark]){--accent:#234b69;--pen:#234b69}
+html[data-book=captions]:not([data-theme=dark]){--accent:#633754;--pen:#633754}
+html[data-theme=dark]{--ink:#fff1da;--muted:#e0cfad;--copy-strong:#fff1da;--copy-soft:#e0cfad}
+html .scroll-section:is(#home,#learn,#exam,#sounds,#practice,#translate,#captions) :is(p,li,td,th,label,small){color:var(--copy-soft)}
+html .scroll-section:is(#home,#learn,#exam,#sounds,#practice,#translate,#captions) :is(h1,h2,h3,h4){color:var(--copy-strong)}
+html .scroll-section:is(#home,#learn,#exam,#sounds,#practice,#translate,#captions) .book-name h2{color:var(--pen);font-weight:650;letter-spacing:-.6px;text-decoration-color:color-mix(in srgb,var(--pen) 32%,transparent)}
+html .scroll-section:is(#home,#learn,#exam,#sounds,#practice,#translate,#captions) .book-name p{color:var(--copy-soft);font-weight:600}
+html .scroll-section:is(#home,#learn,#exam,#sounds,#practice,#translate,#captions) :is(.book-imprint,.book-name>span,.section-index,.section-index span:last-child,.eyebrow,.widget-label,.live-label,.date-chip,.micro,.launch-tags,.next-meta,.review-topline,.recall-language,.paper-toolbar small,.exam-progress-line,.exam-metrics span){color:var(--copy-soft)}
+html :is(.book-imprint,.section-index,.live-label){font-size:9px;letter-spacing:1.1px;font-weight:600}
+html .section-index span:last-child{font-size:8px}
+html :is(.dashboard-heading .eyebrow,.date-chip,.launch-link,.launch-tags,.next-meta,.review-topline,.recall-language,.widget-label){font-weight:600}
+html .scroll-section :is(.launch-card p,.journey-content p,.next-card p,.mini-tool p,.lesson-card p,.word-card p,.page-intro p,.review-heading p,.two-col>.card>p){font-size:14px;line-height:1.9}
+html .scroll-section :is(.launch-card h2 em,.exam-hero h1 em){color:var(--accent);text-decoration-color:color-mix(in srgb,var(--accent) 22%,transparent)}
+html .scroll-section :is(.focus-card,.exam-portal,.book-memo){--copy-strong:#30291b;--copy-soft:#493a24}
+html .scroll-section .caption-screen{--copy-strong:#fff6e8;--copy-soft:#fff6e8}
+html .scroll-section .book-memo :is(textarea,textarea::placeholder){color:#493a24;opacity:1;font-weight:600}
+html .scroll-section .book-memo small{font-size:9px;line-height:1.6}
+html :is(.focus-card,.exam-portal,.side-note) :is(.widget-label,.side-label){color:#493a24}
+html .scroll-section :is(.field input,.field textarea,.field select,.quiz input,.exam-answer-fields input,.paper-draft-label textarea){color:var(--copy-strong);border-color:#8c795d;font-weight:500}
+html .scroll-section :is(input,textarea)::placeholder{color:var(--copy-soft);opacity:1}
+html .scroll-section .book-memo textarea{color:#493a24}
+html .scroll-section :is(.pill,.save,.text-link,.launch-link,.recall-flip,.sound,.letter,.spelling-token,.audio-credit){color:var(--accent)}
+html .scroll-section .btn{background:var(--accent);border-color:var(--accent);color:#fff8e9;font-weight:600}
+html .scroll-section .btn.secondary{background:#f5ead4;color:#4d3525;border-color:#98795a}
+html .scroll-section :is(.exam-feedback,.feedback){color:#365624}
+html .scroll-section :is(.exam-feedback.is-error,.feedback.error,.error){color:#922b24}
+html .scroll-section .focus-card :is(.focus-dial strong,.focus-dial span,.focus-options button){color:#493a24}
+html :is(.header-prefix,.aside-label,.sidebar-progress small,.profile small,.voice-choice,.voice-dock [data-voice-status]){font-size:10px;color:var(--copy-soft)}
+html :is(.quick-search,.voice-dock .pill,.voice-choice select){font-size:11px;color:var(--copy-strong)}
+html :is(.voice-dock-title,.voice-dock-title small,.level,.branddot,#breadcrumb){color:var(--copy-soft)}
+html .voice-dock-title small{font-size:11px;line-height:1.6}
+html .quick-search kbd{font-size:9px}
+html aside nav a{--spine:#71613b;color:#fff9ed}
+html aside nav a:nth-child(2){--spine:#365c62}html aside nav a:nth-child(3){--spine:#803b37}html aside nav a:nth-child(4){--spine:#854c33}html aside nav a:nth-child(5){--spine:#4f5d30}html aside nav a:nth-child(6){--spine:#365470}html aside nav a:nth-child(7){--spine:#654361}
+html aside nav a>span:not(.nav-icon){font-weight:700}
+html aside .side-note :is(p,a,strong,.side-label){color:#493a24}
+html .scroll-section :is(.exam-guide summary strong,.paper-question>summary strong,.paper-answer>summary){color:var(--accent);font-weight:600}
+html .scroll-section :is(.exam-guide summary small,.paper-question>summary small){font-size:12px}
+html #exam.scroll-section{--exam-ink:var(--copy-strong);--exam-muted:var(--copy-soft)}
+html #exam :is(.exam-hero p,.exam-view-head p,.exam-word p,.exam-source-list p,.exam-correction p,.paper-header>p,.paper-task-instruction,.paper-translation,.paper-reason){font-size:14px;line-height:1.95}
+html #exam :is(.exam-badge,.exam-metrics strong,.paper-metadata strong,.exam-guide-number,.exam-spell-link,.exam-correction-link,.paper-toolbar strong,.paper-jump .pill,.exam-chip){color:var(--accent)}
+html #exam :is(.exam-orb span,.exam-orb strong,.exam-orb small){color:#573823}
+html #exam .exam-tabs [aria-pressed=true]{color:#fff8e9;background:var(--accent)}
+html #exam :is(.exam-answer-fields label,.paper-draft-label,.paper-checklist label){font-weight:500}
+html .scroll-section .letter.active,html .scroll-section .spelling-token.active{color:#31451e!important}
+html[data-theme=dark] .scroll-section .btn{color:#292217;background:#d9bf91;border-color:#e2caa2}
+html[data-theme=dark] .scroll-section .btn.secondary{color:#f1d9b2;background:#54432f;border-color:#ac9169}
+html[data-theme=dark] .scroll-section :is(.exam-feedback,.feedback){color:#ccdfa5}
+html[data-theme=dark] .scroll-section :is(.exam-feedback.is-error,.feedback.error,.error){color:#ffb8ab}
+html[data-theme=dark] .scroll-section :is(.focus-card,.exam-portal) .btn{background:#45512f;color:#fff7e3;border-color:#45512f}
+html[data-theme=dark] #exam .exam-tabs [aria-pressed=true]{background:#d9bf91;color:#292217}
+html[data-theme=dark] .scroll-section :is(.field input,.field textarea,.field select,.quiz input,.exam-answer-fields input,.paper-draft-label textarea){border-color:#ac9877}
+@media(max-width:700px){html .scroll-section :is(.launch-card p,.journey-content p,.next-card p,.mini-tool p,.lesson-card p,.word-card p,.page-intro p,.review-heading p,.two-col>.card>p){font-size:14px}html .book-imprint{font-size:7px;line-height:1.7;letter-spacing:.65px}html .section-index{font-size:8px;line-height:1.7}html .section-index span:last-child{font-size:7px}html .live-label{font-size:8px;line-height:1.8}html .quick-search{font-size:0}html .voice-choice{font-size:0}html .voice-choice select,html .voice-dock .pill{font-size:10px}html .voice-dock [data-voice-status]{font-size:10px}}
+@media(max-width:700px){html body header .quick-search,html body .voice-dock .voice-choice{font-size:0}}
+/* Central reading colours also override the older per-book night palettes. */
+html .scroll-section :is(p,li,td,th,label,small){color:var(--copy-soft)!important}
+html .scroll-section :is(h1,h2,h3,h4){color:var(--copy-strong)!important}
+html .scroll-section .book-name h2{color:var(--pen)!important}
+html .scroll-section :is(.exam-feedback,.feedback){color:#365624!important}
+html .scroll-section :is(.exam-feedback.is-error,.feedback.error,.error){color:#922b24!important}
+html[data-theme=dark] .scroll-section :is(.exam-feedback,.feedback){color:#ccdfa5!important}
+html[data-theme=dark] .scroll-section :is(.exam-feedback.is-error,.feedback.error,.error){color:#ffb8ab!important}
+html #exam :is(.exam-example strong,.paper-answer-line>span,.paper-answer-line>strong){color:var(--copy-strong)}
+html #exam .btn{background:var(--accent);border-color:var(--accent);color:#fff8e9;font-weight:600}
+html #exam .btn.secondary{background:#f5ead4;color:#4d3525;border-color:#98795a}
+html[data-theme=dark] #exam .btn{color:#292217;background:#d9bf91;border-color:#e2caa2}
+html[data-theme=dark] #exam .btn.secondary{color:#f1d9b2;background:#54432f;border-color:#ac9169}
+@media(max-width:700px){html .workspace header .header-right .quick-search{font-size:0!important}}

@@ -24,7 +24,7 @@ Google Fonts supplies DM Sans and Manrope. Speech uses bundled human recordings 
 
 ## Manual verification
 
-Check all six navigation views on desktop and at 390px width. Complete all three checks in a lesson and reload to verify progress. Save a word and filter to saved words. Hear a German phrase at 0.5× and 1×. Grant the microphone only when testing recording. Translate a short sentence in each direction. For transcription, choose a short German MP3/WAV, wait for the first model download, review/edit timestamps, add tone and sound cues, translate dialogue and export both formats. Reimport a caption file and verify timestamps. Inspect transcript quality: model output is a draft and can hallucinate on silence/music.
+Check all seven navigation views on desktop and at 390px width. Complete all three checks in a lesson and reload to verify progress. Save a word and filter to saved words. Hear a German phrase at 0.5× and 1×. Grant the microphone only when testing recording. Translate a short sentence in each direction. For transcription, choose a short German MP3/WAV, wait for the first model download, review/edit timestamps, add tone and sound cues, translate dialogue and export both formats. Reimport a caption file and verify timestamps. Inspect transcript quality: model output is a draft and can hallucinate on silence/music.
 
 ## Content
 
@@ -32,7 +32,7 @@ Original instructional copy and CSS/SVG illustrations. This is an introductory e
 
 ## Chrome studio update
 
-All six tools now share one continuous scrolling page with an endless vocabulary review feed. Dark neutral glass panels use cyan, violet, coral, lime and amber accents. A persistent voice selector provides Thorsten (male, high-quality Piper model) and Kerstin (female, low-quality Piper model), generated locally with Piper/VITS and ONNX Runtime Web. No API key is needed. First use downloads the chosen voice (~65–115 MB) plus the phonemizer/runtime. Cached voice models speed up subsequent use. Playback changes preserve pitch. These are synthetic voices and quality differs between models, especially the lower-bandwidth female voice. Browser Device voice is an explicit compatibility option, not a silent fallback. Runtime and model licenses and attribution are in dist/THIRD-PARTY.md.
+Seven navigation sections each show a focused view, with a finite word collection in Practice & words. Dark neutral glass panels use cyan, violet, coral, lime and amber accents. A persistent voice selector provides Thorsten (male, high-quality Piper model) and Kerstin (female, low-quality Piper model), generated locally with Piper/VITS and ONNX Runtime Web. No API key is needed. First use downloads the chosen voice (~65–115 MB) plus the phonemizer/runtime. Cached voice models speed up subsequent use. Playback changes preserve pitch. These are synthetic voices and quality differs between models, especially the lower-bandwidth female voice. Browser Device voice is an explicit compatibility option, not a silent fallback. Runtime and model licenses and attribution are in dist/THIRD-PARTY.md.
 
 ## Responsive speech and themes
 
@@ -47,7 +47,7 @@ All 30 German alphabet buttons (A–Z, Ä, Ö, Ü, ß) play individually credite
 
 Selected sound-example words also use human recordings. These recordings have their original speaker; the male/female selector applies to generated phrases, not the recorded alphabet. All audio sources, authors, licenses and conversion details are in `dist/audio/credits.html` and `dist/audio/sources.json`. WAV clips are packaged with the app, need no model download, and preserve pitch at the chosen playback speed. Phrase generation still requires the selected neural model on first use.
 
-Vocabulary cards synchronize saved states and counts across the page, including the saved-word filter. The continuous review feed shuffles the course vocabulary and exhausts its deck before reshuffling.
+Vocabulary cards synchronize saved states and counts across the page, including the saved-word filter.
 
 Run `npm run check` with Node.js 18+ to verify JavaScript syntax, the recording assets, Unicode spelling and credits.
 
@@ -76,3 +76,8 @@ All 40 grammar items have worked answers, explanations, English meanings and mod
 Five preparation guides cover the additional tested skills: dative possessives, können/wollen/müssen, location versus placement and adjective endings, the new verb forms, and writing structure. Additional source vocabulary includes application/career terms. The Q2 A2 blank accepts both wollen and können because the paper does not require each modal to be used once. The text-only Q6 route is explicitly fictional, with enough streets, turns, sequence words and a landmark to satisfy the prompt; it is not real Vienna navigation. Invented application details are identified as model choices.
 
 Model-paper practice uses a separate local storage key from the 307 ZIP exercises. Drafts and self-review criteria are saved locally. Grammar matches and self-reviewed writing are reported as practice progress, not as a predicted mark out of 90. A text download contains all questions and worked answers; the original PDF can be opened from the same tab.
+
+
+## Separate section navigation
+
+Navigation now displays one section at a time: Overview, Learning path, Semester exam, Sound studio, Practice & words, Translator or Caption studio. Other sections are hidden from layout, keyboard focus and the accessibility tree. The infinite review feed and scroll observers are removed. Pages keep their drafts, filters and progress while switching sections. Navigation stops playback and recording, updates the active link and returns to the top of the chosen section. The model-paper deep link still opens its exam tab directly. Old #infinite links redirect to the finite Practice & words view.

@@ -5,3 +5,5 @@
 @media(min-width:761px){aside{top:0}}
 
 #practice .btn.secondary,#learn .btn.secondary{color:#07111d}
+/* Only the selected navigation section participates in layout. */
+#content > .scroll-section[hidden]{display:none!important}

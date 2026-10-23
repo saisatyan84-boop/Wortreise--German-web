@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {modelMetadata,modelSections} from '../dist/model-paper-data.js';
+import {modelItems,gradeModelAnswer,modelProgress,workedAnswerGuide,modelPaperSection} from '../dist/model-paper.js';
+import {modelPreparation} from '../dist/model-paper-preparation.js';
+assert.equal(modelMetadata.duration,180);assert.equal(modelMetadata.marks,90);assert.equal(modelMetadata.pages,5);
+assert.deepEqual(modelSections.map(s=>s.marks),[5,5,5,25,25,25]);
+assert.equal(modelSections.reduce((n,s)=>n+s.marks,0),90);
+assert.equal(modelItems.length,54);assert.equal(new Set(modelItems.map(i=>i.id)).size,54);
+assert.equal(modelItems.filter(i=>i.kind==='auto').length,40);assert.equal(modelItems.filter(i=>i.kind==='writing').length,14);
+for(const section of modelSections.slice(3)){assert.deepEqual(section.parts.map(p=>p.marks),[5,8,8,4]);assert.ok(section.scenario.length>400&&section.scenarioEn.length>100);}
+for(const item of modelItems){assert.ok(item.page>=1&&item.page<=5&&item.reason&&item.prompt);if(item.kind==='auto'){assert.ok(item.model&&item.en&&item.answers.every(a=>a.length));assert.ok(gradeModelAnswer(item,item.answers.map(a=>a[0])),item.id);assert.equal(gradeModelAnswer(item,item.answers.map(()=>'')),false);}else{assert.ok(item.lines.length&&item.lines.every(line=>line.de&&line.en));assert.ok(item.requirements.length);}}
+const item=id=>modelItems.find(i=>i.id===id);
+assert.ok(gradeModelAnswer(item('q1-a-3'),['unseren']));assert.equal(gradeModelAnswer(item('q1-a-3'),['unserem']),false);
+assert.ok(gradeModelAnswer(item('q2-a-2'),['wollen']));assert.ok(gradeModelAnswer(item('q2-a-2'),['können']));
+assert.ok(gradeModelAnswer(item('q3-a-2'),['in','die']));assert.equal(gradeModelAnswer(item('q3-a-2'),['in','der']),false);
+assert.ok(gradeModelAnswer(item('q3-b-2'),['hat','großen']));assert.equal(gradeModelAnswer(item('q3-b-2'),['ist','groß']),false);
+assert.equal(item('q4-c-7').answers[0][0],'Das Gespräch hat pünktlich um 10 Uhr begonnen.');
+assert.equal(item('q4-c-8').answers[0][0],'Wann ist der Mitarbeiter im Büro angekommen?');
+assert.ok(gradeModelAnswer(item('q5-a-1'),['Welcher','diesen']));assert.ok(gradeModelAnswer(item('q5-a-5'),['Welches','Dieser']));
+assert.equal(item('q5-c-7').answers[0][0],'Er lädt seine Freunde zu einer Party ein.');
+assert.ok(gradeModelAnswer(item('q5-d-3'),['Die Verkäuferin zeigt ihnen die Handschuhe.']));
+assert.equal(gradeModelAnswer(item('q5-d-3'),['Die Verkäuferin zeigt Ihnen die Handschuhe.']),false);
+assert.equal(item('q4-a-1').lines.length,2);assert.equal(item('q4-d').lines.length,4);
+assert.ok(item('q5-b').lines.length>=8);assert.equal(item('q6-a').lines.length,5);assert.ok(item('q6-a').lines[0].de.includes('um zehn Uhr'));
+assert.ok(item('q6-b').lines.length>=8);assert.ok(item('q6-b').note.includes('invented'));assert.equal(item('q6-d').lines.length,4);
+for(const id of ['q6-c-1','q6-c-2','q6-c-3','q6-c-4'])assert.equal(item(id).lines.length,2);
+assert.equal(modelPreparation.length,5);
+const pdf=readFileSync(new URL('../dist/'+modelMetadata.pdf,import.meta.url));assert.equal(pdf.toString('ascii',0,5),'%PDF-');assert.equal(createHash('sha256').update(pdf).digest('hex'),modelMetadata.sha256);
+const guide=workedAnswerGuide();for(const i of modelItems)assert.ok(guide.includes(i.kind==='auto'?i.model:i.lines[0].de),i.id);
+assert.ok(guide.includes('no official answer key')&&guide.includes('not verified navigation'));
+assert.ok(modelPaperSection().includes('id="paper-section-q6"'));
+const practice={auto:{'q1-a-1':{status:'correct'}},drafts:{'q4-a-1':'My draft'},checks:{'q4-a-1':item('q4-a-1').requirements.map(()=>true)}};
+assert.deepEqual(modelProgress(practice),{correct:1,reviewed:1});practice.drafts['q4-a-1']='';assert.equal(modelProgress(practice).reviewed,0);
+console.log('PASS: 6 questions/90 marks, all 40 grammar answers and 14 writing models, original PDF integrity, valid variants, case/declension traps, writing requirements, saved-progress logic and downloadable answer guide.');

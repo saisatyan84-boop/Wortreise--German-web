@@ -1,4 +1,4 @@
-import {examSection,mountExam} from './exam.js';
+import {examSection,mountExam,openExamHash} from './exam.js';
 import {playNative,stopNative,updateNativeRate,spellWord,nativeKey,letters,letterIPA} from './pronunciation.js';
 import {neuralSpeak,stopVoice,choose,selection,updateAudioRate} from './voice.js';
 import {lessons,sounds} from './course.js';
@@ -52,7 +52,7 @@ function route(){
   appendPractice();new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))appendPractice()},{rootMargin:'400px'}).observe($('#more-practice'));
   const spy=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting)$$('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===entry.target.id))},{rootMargin:'-15% 0px -65% 0px'});$$('.scroll-section').forEach(el=>spy.observe(el));
  }
- const name=location.hash.slice(1)||'home';if(name!=='content')document.getElementById(name)?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+ const name=location.hash.slice(1)||'home';openExamHash(name);if(name!=='content')document.getElementById(name)?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
 }
 let practiceCount=0,practiceDeck=[];
 function nextReview(){if(!practiceDeck.length){practiceDeck=[...words];for(let i=practiceDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[practiceDeck[i],practiceDeck[j]]=[practiceDeck[j],practiceDeck[i]]}}return practiceDeck.pop()}

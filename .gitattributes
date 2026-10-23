@@ -1,2 +1,4 @@
 *.pdf binary
 *.wav binary
+*.woff2 binary
+*.png binary

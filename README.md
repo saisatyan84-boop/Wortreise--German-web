@@ -20,7 +20,7 @@ For a local preview, serve `dist` with any local HTTP server, for example `pytho
 
 ## Services and privacy
 
-Google Fonts supplies DM Sans and Manrope. Speech uses bundled human recordings for German letters and selected sound examples, and browser-local Piper neural voices for other German text. An explicit Device voice option uses voices installed on the visitor's device. Optional browser speech recognition can send audio to the browser vendor's service. Recordings and uploaded media remain in tab memory. Uploaded-media transcription downloads a model and runtime from Hugging Face/jsDelivr and runs on the device; no media upload endpoint is used. MyMemory receives text only when the visitor explicitly chooses translation and imposes anonymous daily quotas. A single request is limited to 450 UTF-8 bytes in this app. Caption translations run sequentially and preserve completed results on service failure. Progress does not sync between devices.
+Caveat, Kalam, Lora, DM Sans and Manrope are bundled locally; their OFL licenses are included. Speech uses bundled human recordings for German letters and selected sound examples, and browser-local Piper neural voices for other German text. An explicit Device voice option uses voices installed on the visitor's device. Optional browser speech recognition can send audio to the browser vendor's service. Recordings and uploaded media remain in tab memory. Uploaded-media transcription downloads a model and runtime from Hugging Face/jsDelivr and runs on the device; no media upload endpoint is used. MyMemory receives text only when the visitor explicitly chooses translation and imposes anonymous daily quotas. A single request is limited to 450 UTF-8 bytes in this app. Caption translations run sequentially and preserve completed results on service failure. Progress does not sync between devices.
 
 ## Manual verification
 
@@ -54,7 +54,7 @@ Run `npm run check` with Node.js 18+ to verify JavaScript syntax, the recording 
 
 ## Semester exam section
 
-The separate `#exam` section follows only the German-folder material supplied from EndSem.zip:
+The `#exam` study guide and ZIP practice follow the German-folder material supplied from EndSem.zip; the uploaded model paper has its own tab:
 
 - `german end-sem 26 notes.pdf` (10 pages): welch-, dies-, dative personal pronouns, man, W-questions and time expressions.
 - `german end-sem vocab 2026.pdf` (11 pages): clothing, shops, holiday types, destinations/travel verbs, tourist attractions, weather, orientation, direction phrases and workplaces. Picture-only pages were visually checked. There are 191 vocabulary entries across the nine themes, including context-specific repeats.
@@ -81,3 +81,28 @@ Model-paper practice uses a separate local storage key from the 307 ZIP exercise
 ## Separate section navigation
 
 Navigation now displays one section at a time: Overview, Learning path, Semester exam, Sound studio, Practice & words, Translator or Caption studio. Other sections are hidden from layout, keyboard focus and the accessibility tree. The infinite review feed and scroll observers are removed. Pages keep their drafts, filters and progress while switching sections. Navigation stops playback and recording, updates the active link and returns to the top of the chosen section. The model-paper deep link still opens its exam tab directly. Old #infinite links redirect to the finite Practice & words view.
+
+
+## Illustrated bookshelf redesign (2.0)
+
+Six everyday sections are independent physical notebooks: Overview (an ivory scrapbook), Learning path (a ruled school notebook), Sound studio (a dotted field journal), Practice & words (a kraft word collector), Translator (a blue-lined phrasebook), and Caption studio (a monochrome ink/comic notebook). Each has its own binding, paper texture, pencil doodles, torn scraps, sticky-note placement and book cover. The Semester exam section retains its clear original study-guide, vocabulary, practice and model-paper tabs, without notebook notes or decorations inside its study area.
+
+The background textures are original procedural SVG paper/fibre patterns, not copied images. Caveat, Kalam, Lora, DM Sans and Manrope are bundled locally with their OFL notices. Body text, forms and exam answers retain clear type; informal handwriting is used for the surrounding notebook elements. The original generated German village illustration is in `dist/illustrations/black-forest-ink.png`; asset details are in `dist/THIRD-PARTY.md`.
+
+The design references inspected on Pinterest include:
+
+- https://uk.pinterest.com/pin/messy-junk-journal-spread-in-2025--993043786594029336/
+- https://es.pinterest.com/pin/604256475040836472/
+- https://in.pinterest.com/pin/158400111888222575/
+- https://in.pinterest.com/pin/13721973850193521/
+- https://au.pinterest.com/pin/philippe-ogaki-on-instagram-inktober-sketch-_-sketchbook-paper-pen-pencil-artsy-painting-blackandwhite-ink-creative-commission-graphic-manga--627407791833419064/
+
+No Pinterest images are redistributed. The earlier language-app design references informed the navigation and activity hierarchy, while the final visual direction follows the requested handmade books and ink illustration.
+
+Each everyday notebook has a separate editable margin note, saved only on the current device under its own local-storage key. Notes are escaped before rendering and do not appear in other sections. The book transition closes the previous cover, slides it away, brings in the next volume and opens it. Repeated links and study tabs do not replay the animation. Reduced-motion preference skips it and disables the floating scraps.
+
+Other interactions include a 5/10/15-minute focus timer (start, pause, resume and reset), a finite shuffled review round of up to ten everyday or saved words, reveal/hide, self-rated recall and a retry round for tricky cards. Flashcard ratings are session-only self-review, never automatic pronunciation marks. The timer continues while navigating sections; it resets on page reload and does not claim or record study time. The chosen timer duration is saved on the device.
+
+Find a page (Ctrl/Cmd+K or the search button) searches tools, lessons and German/English vocabulary. Arrow keys and Enter navigate the results. Word results open the Sound studio with that word ready to practise. Learning-path filters show all, remaining or completed lessons, with an explanatory empty state. Actual completed-course progress appears in the bookshelf and Overview.
+
+The isolated sections, native spelling recordings, male/female on-device neural voices, playback speed controls, all 307 ZIP exercises and the complete model paper remain available. Tests cover the content and audio, review-deck boundaries, timer expiry/pause, search, safely isolated notes, different book identities and the simple exam view. Browser checks cover keyboard search, a full review round, a tricky-word retry, timer navigation, saved notes, theme switching, phone layouts and book transitions.

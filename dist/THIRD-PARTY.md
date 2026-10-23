@@ -7,3 +7,12 @@ Voice datasets: Thorsten Voice (https://github.com/thorstenMueller/Thorsten-Voic
 ## Human pronunciation recordings
 
 The alphabet and selected pronunciation examples include adapted Wikimedia Commons recordings, separate from synthetic voice models. Per-file author, source, license and modifications are listed in audio/credits.html and audio/sources.json. Some clips are CC BY-SA 3.0 or 4.0 and retain those licenses; other clips are public domain. Conversion to mono PCM WAV, peak normalization and surrounding-silence shortening do not change speed or pitch.
+
+
+## Locally bundled typefaces
+
+Caveat, Kalam, Lora, DM Sans and Manrope are distributed under the SIL Open Font License 1.1. Their license and copyright notices are included in `fonts/*-OFL.txt`. Source: https://github.com/google/fonts (the respective `ofl` family directories). The supplied Google Fonts CSS preserves its character-range declarations.
+
+## Original illustration
+
+`illustrations/black-forest-ink.png` was generated for Wortreise with the built-in image-generation tool. It is an illustrative fictional German village, not a photograph or a real destination guide. No Pinterest pin images are redistributed.

@@ -28,6 +28,7 @@ assert.ok(item('q6-b').lines.length>=8);assert.ok(item('q6-b').note.includes('in
 for(const id of ['q6-c-1','q6-c-2','q6-c-3','q6-c-4'])assert.equal(item(id).lines.length,2);
 assert.equal(modelPreparation.length,5);
 const pdf=readFileSync(new URL('../dist/'+modelMetadata.pdf,import.meta.url));assert.equal(pdf.toString('ascii',0,5),'%PDF-');assert.equal(createHash('sha256').update(pdf).digest('hex'),modelMetadata.sha256);
+assert.ok(readFileSync(new URL('../.gitattributes',import.meta.url),'utf8').includes('*.pdf binary'));
 const guide=workedAnswerGuide();for(const i of modelItems)assert.ok(guide.includes(i.kind==='auto'?i.model:i.lines[0].de),i.id);
 assert.ok(guide.includes('no official answer key')&&guide.includes('not verified navigation'));
 assert.ok(modelPaperSection().includes('id="paper-section-q6"'));

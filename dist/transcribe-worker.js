@@ -1,0 +1,4 @@
+import {pipeline,env} from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+env.allowLocalModels=false;
+env.backends.onnx.wasm.numThreads=1;
+self.onmessage=async({data})=>{try{const transcriber=await pipeline('automatic-speech-recognition','Xenova/whisper-tiny',{device:'wasm',dtype:'q8',progress_callback:p=>{if(p.status==='progress')self.postMessage({type:'progress',message:`Downloading speech model${p.progress?': '+Math.round(p.progress)+'%':''}. This happens once per browser cache.`})}});self.postMessage({type:'progress',message:'Listening to your clip… Keep this page open. Processing can take a few minutes.'});const result=await transcriber(data.audio,{language:data.language,task:'transcribe',return_timestamps:true,chunk_length_s:25,stride_length_s:5});self.postMessage({type:'done',result})}catch(e){self.postMessage({type:'error',message:e.message||String(e)})}};

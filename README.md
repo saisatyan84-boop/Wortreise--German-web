@@ -85,7 +85,7 @@ Navigation now displays one section at a time: Overview, Learning path, Semester
 
 ## Illustrated bookshelf redesign (2.0)
 
-Six everyday sections are independent physical notebooks: Overview (an ivory scrapbook), Learning path (a ruled school notebook), Sound studio (a dotted field journal), Practice & words (a kraft word collector), Translator (a blue-lined phrasebook), and Caption studio (a monochrome ink/comic notebook). Each has its own binding, paper texture, pencil doodles, torn scraps, sticky-note placement and book cover. The Semester exam section retains its clear original study-guide, vocabulary, practice and model-paper tabs, without notebook notes or decorations inside its study area.
+The seven sections are independent physical notebooks. Everyday volumes include: Overview (an ivory scrapbook), Learning path (a ruled school notebook), Sound studio (a dotted field journal), Practice & words (a kraft word collector), Translator (a blue-lined phrasebook), and Caption studio (a monochrome ink/comic notebook). Each has its own binding, paper texture, pencil doodles, torn scraps, sticky-note placement and book cover. The Semester exam is a graph-paper revision notebook with a red binding, pencil annotations and an independent margin note. Its study-guide, vocabulary, practice and model-paper tabs and readable answer fields keep the same workflow.
 
 The background textures are original procedural SVG paper/fibre patterns, not copied images. Caveat, Kalam, Lora, DM Sans and Manrope are bundled locally with their OFL notices. Body text, forms and exam answers retain clear type; informal handwriting is used for the surrounding notebook elements. The original generated German village illustration is in `dist/illustrations/black-forest-ink.png`; asset details are in `dist/THIRD-PARTY.md`.
 
@@ -99,10 +99,25 @@ The design references inspected on Pinterest include:
 
 No Pinterest images are redistributed. The earlier language-app design references informed the navigation and activity hierarchy, while the final visual direction follows the requested handmade books and ink illustration.
 
-Each everyday notebook has a separate editable margin note, saved only on the current device under its own local-storage key. Notes are escaped before rendering and do not appear in other sections. The book transition closes the previous cover, slides it away, brings in the next volume and opens it. Repeated links and study tabs do not replay the animation. Reduced-motion preference skips it and disables the floating scraps.
+Each notebook has a separate editable margin note, saved only on the current device under its own local-storage key. Notes are escaped before rendering and do not appear in other sections. The book transition closes the previous cover, slides it away, brings in the next volume and opens it. Repeated links and study tabs do not replay the animation. Reduced-motion preference skips it and disables the floating scraps.
 
 Other interactions include a 5/10/15-minute focus timer (start, pause, resume and reset), a finite shuffled review round of up to ten everyday or saved words, reveal/hide, self-rated recall and a retry round for tricky cards. Flashcard ratings are session-only self-review, never automatic pronunciation marks. The timer continues while navigating sections; it resets on page reload and does not claim or record study time. The chosen timer duration is saved on the device.
 
 Find a page (Ctrl/Cmd+K or the search button) searches tools, lessons and German/English vocabulary. Arrow keys and Enter navigate the results. Word results open the Sound studio with that word ready to practise. Learning-path filters show all, remaining or completed lessons, with an explanatory empty state. Actual completed-course progress appears in the bookshelf and Overview.
 
-The isolated sections, native spelling recordings, male/female on-device neural voices, playback speed controls, all 307 ZIP exercises and the complete model paper remain available. Tests cover the content and audio, review-deck boundaries, timer expiry/pause, search, safely isolated notes, different book identities and the simple exam view. Browser checks cover keyboard search, a full review round, a tricky-word retry, timer navigation, saved notes, theme switching, phone layouts and book transitions.
+The isolated sections, native spelling recordings, male/female on-device neural voices, playback speed controls, all 307 ZIP exercises and the complete model paper remain available. Tests cover the content and audio, review-deck boundaries, timer expiry/pause, search, safely isolated notes, different book identities and the revision notebook view. Browser checks cover keyboard search, a full review round, a tricky-word retry, timer navigation, saved notes, theme switching, phone layouts and book transitions.
+
+
+## Reactive stationery and history insert (2.1)
+
+Pens, pencils, creased scraps and small faceted paper balls appear around the desk and notebook margins. Passive scroll and mouse-pointer listeners measure movement velocity and apply bounded impulses to a damped spring model. Stronger/ faster movement produces more motion, which settles when input stops. The animation loop runs only while objects are moving. Resize, book navigation, backgrounding the tab and pausing reset the motion. Touch devices use scroll input; no pointer tracking is transmitted or stored.
+
+The pencil button beside Find a page pauses/resumes desk motion and stores that preference locally. The device's reduced-motion preference disables the reactive effect. Stationery is decorative, hidden from assistive technology and cannot receive clicks or focus. Its movement is constrained to the desk/page margins; answer fields retain normal text and controls. Paper scraps use original CSS/SVG folds and creases.
+
+The translator uses an explicit EN ↔ DE mark. A small modern black-red-gold German flag appears beside the wordmark. Overview includes a labeled historical-context insert about Hitler and Nazi Germany, the Nazi swastika identified as a historical emblem, and the regime's dictatorship and crimes. It links directly to the United States Holocaust Memorial Museum and Deutsches Historisches Museum; the emblem is confined to that critical historical context and is not used in the learning navigation or branding. This insert is separate from the faculty exam material.
+
+Sources for the history insert:
+- https://encyclopedia.ushmm.org/content/en/article/introduction-to-the-holocaust
+- https://www.dhm.de/lemo/kapitel/ns-regime
+
+`tests/verify-desk-motion.mjs` checks speed-sensitive impulses, motion bounds, decay to rest and long-frame handling. Browser verification includes pause/resume, scroll reaction, exam answer checks and desktop/phone layouts.

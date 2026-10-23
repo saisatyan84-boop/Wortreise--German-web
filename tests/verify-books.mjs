@@ -13,11 +13,11 @@ assert.ok(bookFrontmatter('sounds').includes('&lt;script&gt;alert(1)&lt;/script&
 assert.ok(!bookFrontmatter('home').includes('alert(1)'));
 delete globalThis.localStorage;
 const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
-assert.ok(app.includes("id==='exam'?'':bookFrontmatter(id)"),'The exam must not receive notebook notes or ornaments');
+assert.ok(app.includes("${bookFrontmatter(id)}"),"Every section, including exam, must receive its own notebook");
 assert.ok(app.includes('selectBook(active)'));
 const module=readFileSync(new URL('../dist/books.js',import.meta.url),'utf8');
 assert.ok(module.includes('prefers-reduced-motion: reduce'));
 assert.ok(module.includes("previous!==id"),'Exam tabs and repeated links must not trigger another book swap');
 assert.ok(existsSync(new URL('../dist/illustrations/black-forest-ink.png',import.meta.url)));
 assert.ok(existsSync(new URL('../dist/fonts/caveat-OFL.txt',import.meta.url)));
-console.log('PASS: distinct book identities and textures, safely escaped isolated notes, simple exam layout, reduced-motion book swaps and packaged illustration/font licenses.');
+console.log('PASS: distinct book identities and textures, safely escaped isolated notes, revision notebook layout, reduced-motion book swaps and packaged illustration/font licenses.');
